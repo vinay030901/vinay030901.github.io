@@ -27,7 +27,6 @@
             line-height: 1.6;
         }
 
-        /* Navigation */
         nav {
             position: fixed;
             top: 0; width: 100%;
@@ -51,7 +50,6 @@
         }
         .nav-links a:hover { color: var(--primary); }
 
-        /* Hero Section */
         header {
             padding: 10rem 2rem 5rem;
             text-align: center;
@@ -89,7 +87,6 @@
         }
         .btn-outline:hover { background: rgba(56, 189, 248, 0.1); box-shadow: none; }
 
-        /* Sections */
         .container { max-width: 1100px; margin: 0 auto; padding: 4rem 2rem; }
         .section-title {
             font-size: 2rem;
@@ -103,7 +100,6 @@
             background: var(--primary); border-radius: 2px;
         }
 
-        /* Glass Cards */
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
         .card {
             background: var(--card-bg);
@@ -118,7 +114,6 @@
             border-color: var(--primary);
         }
 
-        /* Tags */
         .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
         .tag {
             background: rgba(255, 255, 255, 0.05);
@@ -129,14 +124,13 @@
             border: 1px solid rgba(255,255,255,0.1);
         }
         .tag.ai { color: var(--accent-green); border-color: rgba(16, 185, 129, 0.3); background: rgba(16, 185, 129, 0.05); }
+        .tag.github { color: #f8fafc; border-color: #475569; background: #334155; }
 
-        /* Projects Section */
         .project-card { cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; }
         .project-card h3 { font-size: 1.4rem; margin-bottom: 0.5rem; }
         .project-card p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem; }
         .click-hint { color: var(--primary); font-size: 0.9rem; font-weight: 600; margin-top: 1rem; }
 
-        /* Modal / Popup */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.8);
@@ -166,8 +160,8 @@
         .close-btn:hover { color: white; }
         .modal-body ul { margin-top: 1rem; margin-left: 1.2rem; color: var(--text-muted); }
         .modal-body li { margin-bottom: 0.5rem; }
+        .modal-body p { color: var(--text-muted); }
 
-        /* Experience */
         .exp-item { margin-bottom: 2rem; border-left: 2px solid var(--glass-border); padding-left: 1.5rem; position: relative;}
         .exp-item::before {
             content: ''; position: absolute; left: -6px; top: 5px;
@@ -196,12 +190,13 @@
             <a href="#about">About</a>
             <a href="#experience">Experience</a>
             <a href="#projects">Projects</a>
+            <a href="#github">GitHub</a>
         </div>
     </nav>
 
     <header id="about">
         <h1>Hi, I'm <span class="gradient-text">Vinay Kumar</span></h1>
-        <p class="hero-subtitle">Backend Engineer crafting high-performance Java microservices and intelligent GenAI applications.</p>
+        <p class="hero-subtitle">Backend Engineer crafting high-performance Java microservices, exploring Machine Learning, and building intelligent GenAI applications.</p>
         <div>
             <a href="#projects" class="btn">View My Work</a>
             <a href="https://github.com/vinay030901" target="_blank" class="btn btn-outline">GitHub Profile</a>
@@ -225,49 +220,11 @@
         </div>
     </div>
 
-    <div class="container" id="skills">
-        <h2 class="section-title">Technical Stack</h2>
-        <div class="grid">
-            <div class="card">
-                <h3 style="color: var(--primary); margin-bottom: 1rem;">Backend & Cloud</h3>
-                <div class="tags">
-                    <span class="tag">Java</span>
-                    <span class="tag">Spring Boot</span>
-                    <span class="tag">Microservices</span>
-                    <span class="tag">AWS (Lambda, SQS, EKS)</span>
-                    <span class="tag">Docker & K8s</span>
-                    <span class="tag">PostgreSQL</span>
-                </div>
-            </div>
-            <div class="card">
-                <h3 style="color: var(--primary); margin-bottom: 1rem;">Distributed Systems</h3>
-                <div class="tags">
-                    <span class="tag">Apache Kafka</span>
-                    <span class="tag">Redis</span>
-                    <span class="tag">Event-Driven Arch</span>
-                    <span class="tag">Webhooks</span>
-                    <span class="tag">REST APIs</span>
-                </div>
-            </div>
-            <div class="card">
-                <h3 style="color: var(--primary); margin-bottom: 1rem;">AI & Analytics</h3>
-                <div class="tags">
-                    <span class="tag ai">Spring AI</span>
-                    <span class="tag ai">Claude</span>
-                    <span class="tag ai">Amazon Bedrock</span>
-                    <span class="tag ai">RAG Architecture</span>
-                    <span class="tag ai">Prompt Engineering</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div class="container" id="projects">
-        <h2 class="section-title">Featured Projects</h2>
+        <h2 class="section-title">Professional Architecture</h2>
         <p style="color: var(--text-muted); margin-bottom: 2rem;">Click on any project to view architecture details.</p>
         
         <div class="grid">
-            <!-- Project Card 1 -->
             <div class="card project-card" onclick="openModal('ai-agent')">
                 <div>
                     <h3>AI Interview Agent</h3>
@@ -280,7 +237,6 @@
                 <div class="click-hint">Click to view details →</div>
             </div>
 
-            <!-- Project Card 2 -->
             <div class="card project-card" onclick="openModal('claim-tracker')">
                 <div>
                     <h3>Insurance Claim Tracker</h3>
@@ -294,7 +250,6 @@
                 <div class="click-hint">Click to view details →</div>
             </div>
 
-            <!-- Project Card 3 -->
             <div class="card project-card" onclick="openModal('notification-sys')">
                 <div>
                     <h3>Distributed Notification System</h3>
@@ -302,6 +257,61 @@
                     <div class="tags">
                         <span class="tag">AWS</span>
                         <span class="tag">Kafka</span>
+                    </div>
+                </div>
+                <div class="click-hint">Click to view details →</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- NEW GITHUB PROJECTS SECTION -->
+    <div class="container" id="github">
+        <h2 class="section-title">Open Source & Explorations</h2>
+        <p style="color: var(--text-muted); margin-bottom: 2rem;">Highlights from my 50+ public repositories on GitHub.</p>
+        
+        <div class="grid">
+            <div class="card project-card" onclick="openModal('currency-converter')">
+                <div>
+                    <h3>Currency Converter</h3>
+                    <p>A core Java application demonstrating object-oriented programming concepts and logical flow for real-time data conversion.</p>
+                    <div class="tags">
+                        <span class="tag github">Java</span>
+                    </div>
+                </div>
+                <div class="click-hint">Click to view details →</div>
+            </div>
+
+            <div class="card project-card" onclick="openModal('machine-learning')">
+                <div>
+                    <h3>Machine Learning / AI</h3>
+                    <p>A collection of machine learning models, Jupyter notebooks, and explorations into cryptography.</p>
+                    <div class="tags">
+                        <span class="tag github">Python</span>
+                        <span class="tag github">Jupyter Notebook</span>
+                    </div>
+                </div>
+                <div class="click-hint">Click to view details →</div>
+            </div>
+
+            <div class="card project-card" onclick="openModal('algorithms-daa')">
+                <div>
+                    <h3>Algorithms & DAA</h3>
+                    <p>Comprehensive implementations of complex data structures (DSA) and algorithmic patterns.</p>
+                    <div class="tags">
+                        <span class="tag github">C++</span>
+                        <span class="tag github">DSA</span>
+                    </div>
+                </div>
+                <div class="click-hint">Click to view details →</div>
+            </div>
+
+            <div class="card project-card" onclick="openModal('alien-invasion')">
+                <div>
+                    <h3>Alien Invasion</h3>
+                    <p>An interactive 2D game developed focusing on game loops, sprite management, and event handling.</p>
+                    <div class="tags">
+                        <span class="tag github">Python</span>
+                        <span class="tag github">Pygame</span>
                     </div>
                 </div>
                 <div class="click-hint">Click to view details →</div>
@@ -318,7 +328,7 @@
             <div class="modal-body" id="modal-body">
                 <!-- Content injected via JS -->
             </div>
-            <a href="https://github.com/vinay030901" target="_blank" class="btn btn-outline" style="margin-top: 2rem; display: inline-block;">View Repository</a>
+            <a href="#" id="modal-repo-link" target="_blank" class="btn btn-outline" style="margin-top: 2rem; display: inline-block;">View Repository</a>
         </div>
     </div>
 
@@ -328,10 +338,11 @@
 
     <!-- JavaScript for Interactivity -->
     <script>
-        // Project Data Map
         const projectData = {
+            // Professional
             'ai-agent': {
                 title: 'AI Interview Agent',
+                repo: 'https://github.com/vinay030901',
                 tags: ['Spring AI', 'Claude', 'Amazon Bedrock', 'RAG', 'React'],
                 body: `<p>Built a robust GenAI application designed to automate technical screening.</p>
                        <ul>
@@ -342,67 +353,67 @@
             },
             'claim-tracker': {
                 title: 'Insurance Claim Tracker',
+                repo: 'https://github.com/vinay030901',
                 tags: ['Spring Boot', 'Kafka', 'Redis', 'PostgreSQL', 'Webhooks'],
                 body: `<p>A high-performance, real-time backend architecture for tracking insurance events.</p>
                        <ul>
                            <li>Built a real-time claim-tracking system with event-driven processing and live status updates.</li>
-                           <li>Secured third-party webhook integrations with HMAC signature verification, request validation, and idempotent event processing.</li>
+                           <li>Secured third-party webhook integrations with HMAC signature verification.</li>
                            <li>Designed asynchronous Kafka consumers to persist claim timelines, using Redis for low-latency claim state reads.</li>
                        </ul>`
             },
             'notification-sys': {
                 title: 'Rate Limiter / Notification System',
+                repo: 'https://github.com/vinay030901',
                 tags: ['Spring Boot', 'Kafka', 'Redis', 'AWS'],
                 body: `<p>A highly scalable distributed architecture designed for fault-tolerant messaging.</p>
                        <ul>
                            <li>Built a distributed notification system supporting asynchronous email and SMS delivery.</li>
                            <li>Implemented strict per-user and per-channel rate limiting backed by Redis to prevent service abuse.</li>
-                           <li>Designed Kafka-based event pipelines with retry mechanisms and dead-letter queues (DLQ) for reliable failure recovery.</li>
+                           <li>Designed Kafka-based event pipelines with retry mechanisms and dead-letter queues (DLQ).</li>
+                       </ul>`
+            },
+            // GitHub
+            'currency-converter': {
+                title: 'Currency Converter',
+                repo: 'https://github.com/vinay030901/currency-convertor',
+                tags: ['Java', 'OOP', 'APIs'],
+                body: `<p>One of my popular GitHub repositories highlighting core Java fundamentals.</p>
+                       <ul>
+                           <li>Implements real-time currency conversions using robust object-oriented principles.</li>
+                           <li>Demonstrates clean code practices, error handling, and logical flows outside of major frameworks.</li>
+                       </ul>`
+            },
+            'machine-learning': {
+                title: 'Machine Learning & Cryptography',
+                repo: 'https://github.com/vinay030901/Machine-Learning',
+                tags: ['Python', 'Jupyter', 'Data Science', 'Cryptography'],
+                body: `<p>A sandbox for my ongoing exploration into AI, Machine Learning, and security.</p>
+                       <ul>
+                           <li>Features various Jupyter notebooks detailing statistical modeling and algorithm training.</li>
+                           <li>Includes my Cryptography Internship projects, exploring data encryption and decryption methods in Python.</li>
+                       </ul>`
+            },
+            'algorithms-daa': {
+                title: 'Algorithms & DAA',
+                repo: 'https://github.com/vinay030901/Algorithms',
+                tags: ['C++', 'DSA', 'Problem Solving'],
+                body: `<p>The backbone of my competitive programming and problem-solving journey.</p>
+                       <ul>
+                           <li>A massive collection of optimized algorithms, data structures (DSA), and design patterns written in C++.</li>
+                           <li>Reflects my practice across platforms like LeetCode and HackerRank.</li>
+                       </ul>`
+            },
+            'alien-invasion': {
+                title: 'Alien Invasion',
+                repo: 'https://github.com/vinay030901/Alien-Invasion',
+                tags: ['Python', 'Pygame', 'Game Dev'],
+                body: `<p>A classic 2D shooter game built from scratch.</p>
+                       <ul>
+                           <li>Utilizes the Pygame library to manage game loops, frame rates, and collision detection.</li>
+                           <li>Handles complex sprite management, user event listeners, and dynamic screen rendering.</li>
                        </ul>`
             }
         };
 
-        const modalOverlay = document.getElementById('projectModal');
-        const modalTitle = document.getElementById('modal-title');
-        const modalTags = document.getElementById('modal-tags');
-        const modalBody = document.getElementById('modal-body');
-
-        function openModal(projectId) {
-            const data = projectData[projectId];
-            
-            // Populate Data
-            modalTitle.textContent = data.title;
-            modalBody.innerHTML = data.body;
-            
-            // Populate Tags
-            modalTags.innerHTML = data.tags.map(tag => {
-                const isAI = tag.includes('AI') || tag.includes('Claude') || tag.includes('Bedrock') || tag.includes('RAG');
-                return `<span class="tag ${isAI ? 'ai' : ''}">${tag}</span>`;
-            }).join('');
-
-            // Show Modal
-            modalOverlay.classList.add('active');
-            document.body.style.overflow = 'hidden'; // Prevent background scrolling
-        }
-
-        function closeModal(e) {
-            if (e) e.preventDefault();
-            modalOverlay.classList.remove('active');
-            document.body.style.overflow = 'auto'; // Restore scrolling
-        }
-
-        // Add smooth scrolling to nav links
-        document.querySelectorAll('.nav-links a').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href').substring(1);
-                const targetElement = document.getElementById(targetId);
-                window.scrollTo({
-                    top: targetElement.offsetTop - 80,
-                    behavior: 'smooth'
-                });
-            });
-        });
-    </script>
-</body>
-</html>
+        c
