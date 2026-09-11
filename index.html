@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vinay Kumar | Backend & GenAI Engineer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0b1120;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --primary: #38bdf8;
+            --secondary: #818cf8;
+            --accent-green: #10b981;
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: radial-gradient(circle at top left, #1e293b, var(--bg-dark) 40%);
+            background-attachment: fixed;
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0; width: 100%;
+            background: rgba(11, 17, 32, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 100;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-logo { font-weight: 700; font-size: 1.2rem; color: var(--text-main); text-decoration: none;}
+        .nav-logo span { color: var(--primary); }
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-left: 2rem;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover { color: var(--primary); }
+
+        /* Hero Section */
+        header {
+            padding: 10rem 2rem 5rem;
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        h1 { font-size: 3.5rem; font-weight: 700; margin-bottom: 0.5rem; line-height: 1.2; }
+        .gradient-text {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero-subtitle { font-size: 1.2rem; color: var(--text-muted); margin-bottom: 2rem; }
+        .btn {
+            display: inline-block;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(56, 189, 248, 0.3);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            margin-left: 1rem;
+        }
+        .btn-outline:hover { background: rgba(56, 189, 248, 0.1); box-shadow: none; }
+
+        /* Sections */
+        .container { max-width: 1100px; margin: 0 auto; padding: 4rem 2rem; }
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            display: inline-block;
+            position: relative;
+        }
+        .section-title::after {
+            content: ''; position: absolute; bottom: -5px; left: 0;
+            width: 50%; height: 3px;
+            background: var(--primary); border-radius: 2px;
+        }
+
+        /* Glass Cards */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+
+        /* Tags */
+        .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+        .tag {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-muted);
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .tag.ai { color: var(--accent-green); border-color: rgba(16, 185, 129, 0.3); background: rgba(16, 185, 129, 0.05); }
+
+        /* Projects Section */
+        .project-card { cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; }
+        .project-card h3 { font-size: 1.4rem; margin-bottom: 0.5rem; }
+        .project-card p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem; }
+        .click-hint { color: var(--primary); font-size: 0.9rem; font-weight: 600; margin-top: 1rem; }
+
+        /* Modal / Popup */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            display: flex; justify-content: center; align-items: center;
+            opacity: 0; visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            z-index: 1000;
+        }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal-content {
+            background: var(--bg-dark);
+            border: 1px solid var(--primary);
+            border-radius: 12px;
+            width: 90%; max-width: 600px;
+            padding: 2.5rem;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+        .modal-overlay.active .modal-content { transform: scale(1); }
+        .close-btn {
+            position: absolute; top: 1rem; right: 1.5rem;
+            font-size: 2rem; color: var(--text-muted);
+            cursor: pointer; background: none; border: none;
+        }
+        .close-btn:hover { color: white; }
+        .modal-body ul { margin-top: 1rem; margin-left: 1.2rem; color: var(--text-muted); }
+        .modal-body li { margin-bottom: 0.5rem; }
+
+        /* Experience */
+        .exp-item { margin-bottom: 2rem; border-left: 2px solid var(--glass-border); padding-left: 1.5rem; position: relative;}
+        .exp-item::before {
+            content: ''; position: absolute; left: -6px; top: 5px;
+            width: 10px; height: 10px; border-radius: 50%;
+            background: var(--primary);
+        }
+        .exp-role { font-size: 1.2rem; font-weight: 600; color: var(--text-main); }
+        .exp-company { color: var(--primary); font-size: 1rem; margin-bottom: 0.5rem; }
+        .exp-date { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem; }
+        
+        footer { text-align: center; padding: 3rem; color: var(--text-muted); border-top: 1px solid var(--glass-border); }
+
+        @media(max-width: 768px) {
+            .nav-links { display: none; }
+            h1 { font-size: 2.5rem; }
+            header { padding: 8rem 1rem 3rem; }
+            .btn-outline { margin-left: 0; margin-top: 1rem; display: block; width: fit-content; margin: 1rem auto 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#" class="nav-logo">Vinay<span>.dev</span></a>
+        <div class="nav-links">
+            <a href="#about">About</a>
+            <a href="#experience">Experience</a>
+            <a href="#projects">Projects</a>
+        </div>
+    </nav>
+
+    <header id="about">
+        <h1>Hi, I'm <span class="gradient-text">Vinay Kumar</span></h1>
+        <p class="hero-subtitle">Backend Engineer crafting high-performance Java microservices and intelligent GenAI applications.</p>
+        <div>
+            <a href="#projects" class="btn">View My Work</a>
+            <a href="https://github.com/vinay030901" target="_blank" class="btn btn-outline">GitHub Profile</a>
+        </div>
+    </header>
+
+    <div class="container" id="experience">
+        <h2 class="section-title">Professional Experience</h2>
+        <div class="card">
+            <div class="exp-item">
+                <div class="exp-role">Associate Analyst, Development (Java Backend)</div>
+                <div class="exp-company">Sun Life Global Solutions | Gurgaon, India</div>
+                <div class="exp-date">Aug 2023 - Present</div>
+                <ul style="color: var(--text-muted); margin-left: 1.2rem;">
+                    <li>Maintained 6+ Spring Boot microservices exposing REST APIs, implementing JWT-based authentication and RBAC.</li>
+                    <li>Engineered an async email workflow with AWS Lambda, SQS, and DynamoDB handling ~5,000 emails/day with <1% failure rate.</li>
+                    <li>Re-architected Jasper PDF generation to a dedicated Spring Boot service, reducing processing time from 30+s to ~10s.</li>
+                    <li>Deployed containerized backend services with Docker, Kubernetes, and Amazon EKS, sustaining ~99.9% availability.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" id="skills">
+        <h2 class="section-title">Technical Stack</h2>
+        <div class="grid">
+            <div class="card">
+                <h3 style="color: var(--primary); margin-bottom: 1rem;">Backend & Cloud</h3>
+                <div class="tags">
+                    <span class="tag">Java</span>
+                    <span class="tag">Spring Boot</span>
+                    <span class="tag">Microservices</span>
+                    <span class="tag">AWS (Lambda, SQS, EKS)</span>
+                    <span class="tag">Docker & K8s</span>
+                    <span class="tag">PostgreSQL</span>
+                </div>
+            </div>
+            <div class="card">
+                <h3 style="color: var(--primary); margin-bottom: 1rem;">Distributed Systems</h3>
+                <div class="tags">
+                    <span class="tag">Apache Kafka</span>
+                    <span class="tag">Redis</span>
+                    <span class="tag">Event-Driven Arch</span>
+                    <span class="tag">Webhooks</span>
+                    <span class="tag">REST APIs</span>
+                </div>
+            </div>
+            <div class="card">
+                <h3 style="color: var(--primary); margin-bottom: 1rem;">AI & Analytics</h3>
+                <div class="tags">
+                    <span class="tag ai">Spring AI</span>
+                    <span class="tag ai">Claude</span>
+                    <span class="tag ai">Amazon Bedrock</span>
+                    <span class="tag ai">RAG Architecture</span>
+                    <span class="tag ai">Prompt Engineering</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" id="projects">
+        <h2 class="section-title">Featured Projects</h2>
+        <p style="color: var(--text-muted); margin-bottom: 2rem;">Click on any project to view architecture details.</p>
+        
+        <div class="grid">
+            <!-- Project Card 1 -->
+            <div class="card project-card" onclick="openModal('ai-agent')">
+                <div>
+                    <h3>AI Interview Agent</h3>
+                    <p>An AI-powered agent conducting interactive, context-aware interviews with dynamic follow-ups.</p>
+                    <div class="tags">
+                        <span class="tag ai">Spring AI</span>
+                        <span class="tag ai">Amazon Bedrock</span>
+                    </div>
+                </div>
+                <div class="click-hint">Click to view details →</div>
+            </div>
+
+            <!-- Project Card 2 -->
+            <div class="card project-card" onclick="openModal('claim-tracker')">
+                <div>
+                    <h3>Insurance Claim Tracker</h3>
+                    <p>Real-time claim-tracking system featuring event-driven processing and low-latency state management.</p>
+                    <div class="tags">
+                        <span class="tag">Spring Boot</span>
+                        <span class="tag">Kafka</span>
+                        <span class="tag">Redis</span>
+                    </div>
+                </div>
+                <div class="click-hint">Click to view details →</div>
+            </div>
+
+            <!-- Project Card 3 -->
+            <div class="card project-card" onclick="openModal('notification-sys')">
+                <div>
+                    <h3>Distributed Notification System</h3>
+                    <p>Async email/SMS delivery pipeline with per-user rate limiting and dead-letter handling.</p>
+                    <div class="tags">
+                        <span class="tag">AWS</span>
+                        <span class="tag">Kafka</span>
+                    </div>
+                </div>
+                <div class="click-hint">Click to view details →</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- The Interactive Modal -->
+    <div class="modal-overlay" id="projectModal" onclick="closeModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="close-btn" onclick="closeModal(event)">&times;</button>
+            <h2 id="modal-title" style="color: var(--primary); margin-bottom: 0.5rem;">Project Title</h2>
+            <div class="tags" id="modal-tags" style="margin-bottom: 1.5rem;"></div>
+            <div class="modal-body" id="modal-body">
+                <!-- Content injected via JS -->
+            </div>
+            <a href="https://github.com/vinay030901" target="_blank" class="btn btn-outline" style="margin-top: 2rem; display: inline-block;">View Repository</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Vinay Kumar. Built with code, deployed on GitHub Pages.</p>
+    </footer>
+
+    <!-- JavaScript for Interactivity -->
+    <script>
+        // Project Data Map
+        const projectData = {
+            'ai-agent': {
+                title: 'AI Interview Agent',
+                tags: ['Spring AI', 'Claude', 'Amazon Bedrock', 'RAG', 'React'],
+                body: `<p>Built a robust GenAI application designed to automate technical screening.</p>
+                       <ul>
+                           <li>Generates role-specific questionnaires and conducts interactive, context-aware interviews using Claude via Amazon Bedrock.</li>
+                           <li>Developed a custom agent workflow that analyzes candidate responses in real-time.</li>
+                           <li>Dynamically generates probing follow-up questions from conversation context using Retrieval-Augmented Generation (RAG).</li>
+                       </ul>`
+            },
+            'claim-tracker': {
+                title: 'Insurance Claim Tracker',
+                tags: ['Spring Boot', 'Kafka', 'Redis', 'PostgreSQL', 'Webhooks'],
+                body: `<p>A high-performance, real-time backend architecture for tracking insurance events.</p>
+                       <ul>
+                           <li>Built a real-time claim-tracking system with event-driven processing and live status updates.</li>
+                           <li>Secured third-party webhook integrations with HMAC signature verification, request validation, and idempotent event processing.</li>
+                           <li>Designed asynchronous Kafka consumers to persist claim timelines, using Redis for low-latency claim state reads.</li>
+                       </ul>`
+            },
+            'notification-sys': {
+                title: 'Rate Limiter / Notification System',
+                tags: ['Spring Boot', 'Kafka', 'Redis', 'AWS'],
+                body: `<p>A highly scalable distributed architecture designed for fault-tolerant messaging.</p>
+                       <ul>
+                           <li>Built a distributed notification system supporting asynchronous email and SMS delivery.</li>
+                           <li>Implemented strict per-user and per-channel rate limiting backed by Redis to prevent service abuse.</li>
+                           <li>Designed Kafka-based event pipelines with retry mechanisms and dead-letter queues (DLQ) for reliable failure recovery.</li>
+                       </ul>`
+            }
+        };
+
+        const modalOverlay = document.getElementById('projectModal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalTags = document.getElementById('modal-tags');
+        const modalBody = document.getElementById('modal-body');
+
+        function openModal(projectId) {
+            const data = projectData[projectId];
+            
+            // Populate Data
+            modalTitle.textContent = data.title;
+            modalBody.innerHTML = data.body;
+            
+            // Populate Tags
+            modalTags.innerHTML = data.tags.map(tag => {
+                const isAI = tag.includes('AI') || tag.includes('Claude') || tag.includes('Bedrock') || tag.includes('RAG');
+                return `<span class="tag ${isAI ? 'ai' : ''}">${tag}</span>`;
+            }).join('');
+
+            // Show Modal
+            modalOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        }
+
+        function closeModal(e) {
+            if (e) e.preventDefault();
+            modalOverlay.classList.remove('active');
+            document.body.style.overflow = 'auto'; // Restore scrolling
+        }
+
+        // Add smooth scrolling to nav links
+        document.querySelectorAll('.nav-links a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                window.scrollTo({
+                    top: targetElement.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
