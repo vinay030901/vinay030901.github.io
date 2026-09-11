@@ -1,464 +1,199 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vinay Kumar | Backend & GenAI Engineer</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-dark: #0b1120;
-            --card-bg: rgba(30, 41, 59, 0.7);
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --primary: #38bdf8;
-            --secondary: #818cf8;
-            --accent-green: #10b981;
-            --glass-border: rgba(255, 255, 255, 0.1);
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: radial-gradient(circle at top left, #1e293b, var(--bg-dark) 40%);
-            background-attachment: fixed;
-            color: var(--text-main);
-            line-height: 1.6;
-        }
-
-        nav {
-            position: fixed;
-            top: 0; width: 100%;
-            background: rgba(11, 17, 32, 0.8);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--glass-border);
-            z-index: 100;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .nav-logo { font-weight: 700; font-size: 1.2rem; color: var(--text-main); text-decoration: none;}
-        .nav-logo span { color: var(--primary); }
-        .nav-links a {
-            color: var(--text-muted);
-            text-decoration: none;
-            margin-left: 2rem;
-            font-weight: 600;
-            transition: color 0.3s;
-        }
-        .nav-links a:hover { color: var(--primary); }
-
-        header {
-            padding: 10rem 2rem 5rem;
-            text-align: center;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-        h1 { font-size: 3.5rem; font-weight: 700; margin-bottom: 0.5rem; line-height: 1.2; }
-        .gradient-text {
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .hero-subtitle { font-size: 1.2rem; color: var(--text-muted); margin-bottom: 2rem; }
-        .btn {
-            display: inline-block;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            color: white;
-            padding: 0.8rem 2rem;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: 600;
-            border: none;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(56, 189, 248, 0.3);
-        }
-        .btn-outline {
-            background: transparent;
-            border: 1px solid var(--primary);
-            color: var(--primary);
-            margin-left: 1rem;
-        }
-        .btn-outline:hover { background: rgba(56, 189, 248, 0.1); box-shadow: none; }
-
-        .container { max-width: 1100px; margin: 0 auto; padding: 4rem 2rem; }
-        .section-title {
-            font-size: 2rem;
-            margin-bottom: 2rem;
-            display: inline-block;
-            position: relative;
-        }
-        .section-title::after {
-            content: ''; position: absolute; bottom: -5px; left: 0;
-            width: 50%; height: 3px;
-            background: var(--primary); border-radius: 2px;
-        }
-
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
-        .card {
-            background: var(--card-bg);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            padding: 2rem;
-            transition: transform 0.3s, border-color 0.3s;
-        }
-        .card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary);
-        }
-
-        .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
-        .tag {
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--text-muted);
-            padding: 0.4rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .tag.ai { color: var(--accent-green); border-color: rgba(16, 185, 129, 0.3); background: rgba(16, 185, 129, 0.05); }
-        .tag.github { color: #f8fafc; border-color: #475569; background: #334155; }
-
-        .project-card { cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; }
-        .project-card h3 { font-size: 1.4rem; margin-bottom: 0.5rem; }
-        .project-card p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem; }
-        .click-hint { color: var(--primary); font-size: 0.9rem; font-weight: 600; margin-top: 1rem; }
-
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(5px);
-            display: flex; justify-content: center; align-items: center;
-            opacity: 0; visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-            z-index: 1000;
-        }
-        .modal-overlay.active { opacity: 1; visibility: visible; }
-        .modal-content {
-            background: var(--bg-dark);
-            border: 1px solid var(--primary);
-            border-radius: 12px;
-            width: 90%; max-width: 600px;
-            padding: 2.5rem;
-            position: relative;
-            transform: scale(0.9);
-            transition: transform 0.3s ease;
-        }
-        .modal-overlay.active .modal-content { transform: scale(1); }
-        .close-btn {
-            position: absolute; top: 1rem; right: 1.5rem;
-            font-size: 2rem; color: var(--text-muted);
-            cursor: pointer; background: none; border: none;
-        }
-        .close-btn:hover { color: white; }
-        .modal-body ul { margin-top: 1rem; margin-left: 1.2rem; color: var(--text-muted); }
-        .modal-body li { margin-bottom: 0.5rem; }
-        .modal-body p { color: var(--text-muted); }
-
-        .exp-item { margin-bottom: 2rem; border-left: 2px solid var(--glass-border); padding-left: 1.5rem; position: relative;}
-        .exp-item::before {
-            content: ''; position: absolute; left: -6px; top: 5px;
-            width: 10px; height: 10px; border-radius: 50%;
-            background: var(--primary);
-        }
-        .exp-role { font-size: 1.2rem; font-weight: 600; color: var(--text-main); }
-        .exp-company { color: var(--primary); font-size: 1rem; margin-bottom: 0.5rem; }
-        .exp-date { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem; }
-        
-        footer { text-align: center; padding: 3rem; color: var(--text-muted); border-top: 1px solid var(--glass-border); }
-
-        @media(max-width: 768px) {
-            .nav-links { display: none; }
-            h1 { font-size: 2.5rem; }
-            header { padding: 8rem 1rem 3rem; }
-            .btn-outline { margin-left: 0; margin-top: 1rem; display: block; width: fit-content; margin: 1rem auto 0; }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Vinay Kumar — Java Backend Engineer specializing in Spring Boot, microservices, Kafka, AWS and GenAI.">
+  <meta name="theme-color" content="#080d18">
+  <title>Vinay Kumar | Java Backend Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <div class="progress" id="progress"></div>
 
-    <nav>
-        <a href="#" class="nav-logo">Vinay<span>.dev</span></a>
-        <div class="nav-links">
-            <a href="#about">About</a>
-            <a href="#experience">Experience</a>
-            <a href="#projects">Projects</a>
-            <a href="#github">GitHub</a>
-        </div>
-    </nav>
-
-    <header id="about">
-        <h1>Hi, I'm <span class="gradient-text">Vinay Kumar</span></h1>
-        <p class="hero-subtitle">Backend Engineer crafting high-performance Java microservices, exploring Machine Learning, and building intelligent GenAI applications.</p>
-        <div>
-            <a href="#projects" class="btn">View My Work</a>
-            <a href="https://github.com/vinay030901" target="_blank" class="btn btn-outline">GitHub Profile</a>
-        </div>
-    </header>
-
-    <div class="container" id="experience">
-        <h2 class="section-title">Professional Experience</h2>
-        <div class="card">
-            <div class="exp-item">
-                <div class="exp-role">Associate Analyst, Development (Java Backend)</div>
-                <div class="exp-company">Sun Life Global Solutions | Gurgaon, India</div>
-                <div class="exp-date">Aug 2023 - Present</div>
-                <ul style="color: var(--text-muted); margin-left: 1.2rem;">
-                    <li>Maintained 6+ Spring Boot microservices exposing REST APIs, implementing JWT-based authentication and RBAC.</li>
-                    <li>Engineered an async email workflow with AWS Lambda, SQS, and DynamoDB handling ~5,000 emails/day with <1% failure rate.</li>
-                    <li>Re-architected Jasper PDF generation to a dedicated Spring Boot service, reducing processing time from 30+s to ~10s.</li>
-                    <li>Deployed containerized backend services with Docker, Kubernetes, and Amazon EKS, sustaining ~99.9% availability.</li>
-                </ul>
-            </div>
-        </div>
+  <nav class="nav">
+    <a class="brand" href="#home" aria-label="Vinay Kumar home">vinay<span>.dev</span></a>
+    <div class="nav-links" id="navLinks">
+      <a href="#experience">Experience</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#github">GitHub</a>
+      <a href="#contact">Contact</a>
     </div>
+    <button class="menu-btn" id="menuBtn" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+  </nav>
 
-    <div class="container" id="projects">
-        <h2 class="section-title">Professional Architecture</h2>
-        <p style="color: var(--text-muted); margin-bottom: 2rem;">Click on any project to view architecture details.</p>
-        
-        <div class="grid">
-            <div class="card project-card" onclick="openModal('ai-agent')">
-                <div>
-                    <h3>AI Interview Agent</h3>
-                    <p>An AI-powered agent conducting interactive, context-aware interviews with dynamic follow-ups.</p>
-                    <div class="tags">
-                        <span class="tag ai">Spring AI</span>
-                        <span class="tag ai">Amazon Bedrock</span>
-                    </div>
-                </div>
-                <div class="click-hint">Click to view details →</div>
-            </div>
-
-            <div class="card project-card" onclick="openModal('claim-tracker')">
-                <div>
-                    <h3>Insurance Claim Tracker</h3>
-                    <p>Real-time claim-tracking system featuring event-driven processing and low-latency state management.</p>
-                    <div class="tags">
-                        <span class="tag">Spring Boot</span>
-                        <span class="tag">Kafka</span>
-                        <span class="tag">Redis</span>
-                    </div>
-                </div>
-                <div class="click-hint">Click to view details →</div>
-            </div>
-
-            <div class="card project-card" onclick="openModal('notification-sys')">
-                <div>
-                    <h3>Distributed Notification System</h3>
-                    <p>Async email/SMS delivery pipeline with per-user rate limiting and dead-letter handling.</p>
-                    <div class="tags">
-                        <span class="tag">AWS</span>
-                        <span class="tag">Kafka</span>
-                    </div>
-                </div>
-                <div class="click-hint">Click to view details →</div>
-            </div>
+  <main id="home">
+    <section class="hero section">
+      <div class="hero-copy reveal">
+        <div class="eyebrow"><span class="dot"></span> Java Backend Engineer · Gurgaon, India</div>
+        <h1>Building backend systems that are <span>fast, reliable &amp; scalable.</span></h1>
+        <p class="hero-text">
+          I’m Vinay Kumar, a Java backend engineer focused on Spring Boot, microservices,
+          event-driven systems, AWS and GenAI applications.
+        </p>
+        <div class="actions">
+          <a class="btn primary" href="#projects">Explore my work <span>↗</span></a>
+          <a class="btn secondary" href="https://github.com/vinay030901" target="_blank" rel="noopener">GitHub <span>↗</span></a>
         </div>
-    </div>
-
-    <!-- NEW GITHUB PROJECTS SECTION -->
-    <div class="container" id="github">
-        <h2 class="section-title">Open Source & Explorations</h2>
-        <p style="color: var(--text-muted); margin-bottom: 2rem;">Highlights from my 50+ public repositories on GitHub.</p>
-        
-        <div class="grid">
-            <div class="card project-card" onclick="openModal('currency-converter')">
-                <div>
-                    <h3>Currency Converter</h3>
-                    <p>A core Java application demonstrating object-oriented programming concepts and logical flow for real-time data conversion.</p>
-                    <div class="tags">
-                        <span class="tag github">Java</span>
-                    </div>
-                </div>
-                <div class="click-hint">Click to view details →</div>
-            </div>
-
-            <div class="card project-card" onclick="openModal('machine-learning')">
-                <div>
-                    <h3>Machine Learning / AI</h3>
-                    <p>A collection of machine learning models, Jupyter notebooks, and explorations into cryptography.</p>
-                    <div class="tags">
-                        <span class="tag github">Python</span>
-                        <span class="tag github">Jupyter Notebook</span>
-                    </div>
-                </div>
-                <div class="click-hint">Click to view details →</div>
-            </div>
-
-            <div class="card project-card" onclick="openModal('algorithms-daa')">
-                <div>
-                    <h3>Algorithms & DAA</h3>
-                    <p>Comprehensive implementations of complex data structures (DSA) and algorithmic patterns.</p>
-                    <div class="tags">
-                        <span class="tag github">C++</span>
-                        <span class="tag github">DSA</span>
-                    </div>
-                </div>
-                <div class="click-hint">Click to view details →</div>
-            </div>
-
-            <div class="card project-card" onclick="openModal('alien-invasion')">
-                <div>
-                    <h3>Alien Invasion</h3>
-                    <p>An interactive 2D game developed focusing on game loops, sprite management, and event handling.</p>
-                    <div class="tags">
-                        <span class="tag github">Python</span>
-                        <span class="tag github">Pygame</span>
-                    </div>
-                </div>
-                <div class="click-hint">Click to view details →</div>
-            </div>
+        <div class="quick-stats">
+          <div><strong>3+</strong><small>Years experience</small></div>
+          <div><strong>6+</strong><small>Spring Boot services</small></div>
+          <div><strong>5K+</strong><small>Emails/day workflow</small></div>
+          <div><strong>99.9%</strong><small>Availability target</small></div>
         </div>
-    </div>
+      </div>
 
-    <!-- The Interactive Modal -->
-    <div class="modal-overlay" id="projectModal" onclick="closeModal(event)">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <button class="close-btn" onclick="closeModal(event)">&times;</button>
-            <h2 id="modal-title" style="color: var(--primary); margin-bottom: 0.5rem;">Project Title</h2>
-            <div class="tags" id="modal-tags" style="margin-bottom: 1.5rem;"></div>
-            <div class="modal-body" id="modal-body">
-                <!-- Content injected via JS -->
-            </div>
-            <a href="#" id="modal-repo-link" target="_blank" class="btn btn-outline" style="margin-top: 2rem; display: inline-block;">View Repository</a>
+      <div class="terminal reveal delay-1" aria-label="Technology snapshot">
+        <div class="terminal-bar"><i></i><i></i><i></i><span>vinay@backend ~</span></div>
+        <div class="terminal-body">
+          <p><b>$</b> whoami</p>
+          <p class="muted">java-backend-engineer</p>
+          <p><b>$</b> stack --primary</p>
+          <div class="code-grid">
+            <span>Java</span><span>Spring Boot</span><span>Kafka</span><span>AWS</span>
+            <span>Docker</span><span>Kubernetes</span><span>Redis</span><span>PostgreSQL</span>
+          </div>
+          <p><b>$</b> focus</p>
+          <p class="green">distributed-systems + genai</p>
+          <p><b>$</b> status</p>
+          <p class="cyan">shipping reliable software...</p>
+          <span class="cursor"></span>
         </div>
+      </div>
+    </section>
+
+    <section class="section" id="experience">
+      <div class="section-head reveal">
+        <div><span class="label">01 / EXPERIENCE</span><h2>Production engineering</h2></div>
+        <p>Real systems, measurable outcomes, and the engineering decisions behind them.</p>
+      </div>
+
+      <article class="experience-card reveal">
+        <div class="exp-top">
+          <div>
+            <span class="role">Associate Analyst, Development <em>— Java Backend</em></span>
+            <h3>Sun Life Global Solutions</h3>
+          </div>
+          <span class="date">Aug 2023 — Present · Gurgaon</span>
+        </div>
+        <div class="impact-grid">
+          <div class="impact"><strong>6+</strong><span>Spring Boot microservices maintained</span></div>
+          <div class="impact"><strong>5,000</strong><span>emails/day through async workflow</span></div>
+          <div class="impact"><strong>30s → 10s</strong><span>PDF processing time</span></div>
+          <div class="impact"><strong>~99.9%</strong><span>service availability</span></div>
+        </div>
+        <ul class="bullet-list">
+          <li>Maintained Spring Boot microservices exposing REST APIs with JWT-based authentication and role-based access control.</li>
+          <li>Engineered an asynchronous email workflow using AWS Lambda, SQS and DynamoDB, handling approximately 5,000 emails/day with less than 1% failure rate.</li>
+          <li>Re-architected Jasper PDF generation into a dedicated Spring Boot service, reducing processing time from 30+ seconds to approximately 10 seconds.</li>
+          <li>Deployed containerized backend services with Docker, Kubernetes and Amazon EKS, sustaining approximately 99.9% availability.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="section" id="skills">
+      <div class="section-head reveal">
+        <div><span class="label">02 / SKILLS</span><h2>My engineering toolkit</h2></div>
+        <p>A backend-first stack, with cloud and GenAI capabilities layered on top.</p>
+      </div>
+      <div class="skills-grid">
+        <article class="skill-card reveal"><span class="skill-num">01</span><h3>Backend</h3><p>Java · Spring Boot · Spring Security · REST APIs · Microservices</p></article>
+        <article class="skill-card reveal"><span class="skill-num">02</span><h3>Distributed systems</h3><p>Kafka · Event-driven architecture · Async processing · Rate limiting · DLQ</p></article>
+        <article class="skill-card reveal"><span class="skill-num">03</span><h3>Cloud &amp; DevOps</h3><p>AWS · Lambda · SQS · DynamoDB · EKS · Kubernetes · Docker</p></article>
+        <article class="skill-card reveal"><span class="skill-num">04</span><h3>Data</h3><p>PostgreSQL · Redis · Low-latency state management · Persistence</p></article>
+        <article class="skill-card reveal"><span class="skill-num">05</span><h3>GenAI</h3><p>Spring AI · Amazon Bedrock · Claude · RAG · Agent workflows</p></article>
+        <article class="skill-card reveal"><span class="skill-num">06</span><h3>Foundations</h3><p>Data Structures &amp; Algorithms · OOP · Problem solving · API design</p></article>
+      </div>
+    </section>
+
+    <section class="section" id="projects">
+      <div class="section-head reveal">
+        <div><span class="label">03 / FEATURED PROJECTS</span><h2>Engineering beyond the job</h2></div>
+        <p>Architecture-focused projects demonstrating backend design, distributed systems and GenAI.</p>
+      </div>
+      <div class="projects-grid">
+        <article class="project-card featured reveal" data-project="ai-agent" tabindex="0">
+          <div class="project-meta"><span>01</span><span>GenAI · Agent</span></div>
+          <h3>AI Interview Agent</h3>
+          <p>Context-aware technical interviewing with dynamic follow-ups and role-specific questioning.</p>
+          <div class="tags"><span>Spring AI</span><span>Bedrock</span><span>Claude</span><span>RAG</span></div>
+          <button class="project-link">View architecture <b>↗</b></button>
+        </article>
+        <article class="project-card reveal" data-project="claim-tracker" tabindex="0">
+          <div class="project-meta"><span>02</span><span>Distributed system</span></div>
+          <h3>Insurance Claim Tracker</h3>
+          <p>Event-driven claim processing with real-time state reads and secured third-party webhooks.</p>
+          <div class="tags"><span>Spring Boot</span><span>Kafka</span><span>Redis</span><span>PostgreSQL</span></div>
+          <button class="project-link">View architecture <b>↗</b></button>
+        </article>
+        <article class="project-card reveal" data-project="notification" tabindex="0">
+          <div class="project-meta"><span>03</span><span>Distributed system</span></div>
+          <h3>Notification System</h3>
+          <p>Fault-tolerant asynchronous email/SMS delivery with rate limiting, retries and dead-letter handling.</p>
+          <div class="tags"><span>Kafka</span><span>Redis</span><span>AWS</span><span>Spring Boot</span></div>
+          <button class="project-link">View architecture <b>↗</b></button>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="github">
+      <div class="section-head reveal">
+        <div><span class="label">04 / GITHUB</span><h2>Open-source &amp; learning</h2></div>
+        <p>Selected work from my public repositories and technical explorations.</p>
+      </div>
+      <div class="github-grid">
+        <a class="repo-card reveal" href="https://github.com/vinay030901/currency-convertor" target="_blank" rel="noopener">
+          <span class="repo-icon">JV</span><div><h3>Currency Converter</h3><p>Core Java, OOP and API-oriented application.</p></div><b>↗</b>
+        </a>
+        <a class="repo-card reveal" href="https://github.com/vinay030901/Machine-Learning" target="_blank" rel="noopener">
+          <span class="repo-icon">ML</span><div><h3>Machine Learning</h3><p>Python notebooks covering ML and cryptography explorations.</p></div><b>↗</b>
+        </a>
+        <a class="repo-card reveal" href="https://github.com/vinay030901/Algorithms" target="_blank" rel="noopener">
+          <span class="repo-icon">DS</span><div><h3>Algorithms &amp; DAA</h3><p>DSA and algorithm implementations in C++.</p></div><b>↗</b>
+        </a>
+        <a class="repo-card reveal" href="https://github.com/vinay030901/Alien-Invasion" target="_blank" rel="noopener">
+          <span class="repo-icon">PY</span><div><h3>Alien Invasion</h3><p>2D game exploring Pygame loops, sprites and events.</p></div><b>↗</b>
+        </a>
+      </div>
+      <a class="all-github reveal" href="https://github.com/vinay030901" target="_blank" rel="noopener">Explore all public repositories →</a>
+    </section>
+
+    <section class="contact section" id="contact">
+      <div class="contact-box reveal">
+        <span class="label">05 / CONTACT</span>
+        <h2>Let's build something<br><span>worth shipping.</span></h2>
+        <p>Interested in backend engineering, distributed systems or GenAI applications? I’d be happy to connect.</p>
+        <div class="actions">
+          <!-- Replace the placeholder resume URL below with your GitHub Pages/raw PDF path when your resume is ready. -->
+          <a class="btn primary" href="https://github.com/vinay030901" target="_blank" rel="noopener">GitHub <span>↗</span></a>
+          <!-- Replace this with your LinkedIn profile URL. -->
+          <a class="btn secondary" href="#" id="linkedinBtn">LinkedIn <span>↗</span></a>
+        </div>
+        <small class="hint">Tip: replace the LinkedIn link in <code>index.html</code> with your profile URL.</small>
+      </div>
+    </section>
+  </main>
+
+  <footer><span>© 2026 Vinay Kumar</span><span>Built for GitHub Pages · Java + caffeine</span></footer>
+
+  <div class="modal" id="modal" aria-hidden="true">
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="modal-close" data-close aria-label="Close project details">×</button>
+      <span class="label" id="modalLabel"></span>
+      <h2 id="modalTitle"></h2>
+      <div class="modal-tags" id="modalTags"></div>
+      <p id="modalIntro"></p>
+      <div class="architecture" id="architecture"></div>
+      <ul class="modal-list" id="modalList"></ul>
+      <a class="btn secondary" id="modalRepo" target="_blank" rel="noopener">View repository <span>↗</span></a>
     </div>
+  </div>
 
-    <footer>
-        <p>&copy; 2026 Vinay Kumar. Built with code, deployed on GitHub Pages.</p>
-    </footer>
-
-    <!-- JavaScript for Interactivity -->
-    <script>
-        const projectData = {
-            // Professional
-            'ai-agent': {
-                title: 'AI Interview Agent',
-                repo: 'https://github.com/vinay030901',
-                tags: ['Spring AI', 'Claude', 'Amazon Bedrock', 'RAG', 'React'],
-                body: `<p>Built a robust GenAI application designed to automate technical screening.</p>
-                       <ul>
-                           <li>Generates role-specific questionnaires and conducts interactive, context-aware interviews using Claude via Amazon Bedrock.</li>
-                           <li>Developed a custom agent workflow that analyzes candidate responses in real-time.</li>
-                           <li>Dynamically generates probing follow-up questions from conversation context using Retrieval-Augmented Generation (RAG).</li>
-                       </ul>`
-            },
-            'claim-tracker': {
-                title: 'Insurance Claim Tracker',
-                repo: 'https://github.com/vinay030901',
-                tags: ['Spring Boot', 'Kafka', 'Redis', 'PostgreSQL', 'Webhooks'],
-                body: `<p>A high-performance, real-time backend architecture for tracking insurance events.</p>
-                       <ul>
-                           <li>Built a real-time claim-tracking system with event-driven processing and live status updates.</li>
-                           <li>Secured third-party webhook integrations with HMAC signature verification.</li>
-                           <li>Designed asynchronous Kafka consumers to persist claim timelines, using Redis for low-latency claim state reads.</li>
-                       </ul>`
-            },
-            'notification-sys': {
-                title: 'Rate Limiter / Notification System',
-                repo: 'https://github.com/vinay030901',
-                tags: ['Spring Boot', 'Kafka', 'Redis', 'AWS'],
-                body: `<p>A highly scalable distributed architecture designed for fault-tolerant messaging.</p>
-                       <ul>
-                           <li>Built a distributed notification system supporting asynchronous email and SMS delivery.</li>
-                           <li>Implemented strict per-user and per-channel rate limiting backed by Redis to prevent service abuse.</li>
-                           <li>Designed Kafka-based event pipelines with retry mechanisms and dead-letter queues (DLQ).</li>
-                       </ul>`
-            },
-            // GitHub
-            'currency-converter': {
-                title: 'Currency Converter',
-                repo: 'https://github.com/vinay030901/currency-convertor',
-                tags: ['Java', 'OOP', 'APIs'],
-                body: `<p>One of my popular GitHub repositories highlighting core Java fundamentals.</p>
-                       <ul>
-                           <li>Implements real-time currency conversions using robust object-oriented principles.</li>
-                           <li>Demonstrates clean code practices, error handling, and logical flows outside of major frameworks.</li>
-                       </ul>`
-            },
-            'machine-learning': {
-                title: 'Machine Learning & Cryptography',
-                repo: 'https://github.com/vinay030901/Machine-Learning',
-                tags: ['Python', 'Jupyter', 'Data Science', 'Cryptography'],
-                body: `<p>A sandbox for my ongoing exploration into AI, Machine Learning, and security.</p>
-                       <ul>
-                           <li>Features various Jupyter notebooks detailing statistical modeling and algorithm training.</li>
-                           <li>Includes my Cryptography Internship projects, exploring data encryption and decryption methods in Python.</li>
-                       </ul>`
-            },
-            'algorithms-daa': {
-                title: 'Algorithms & DAA',
-                repo: 'https://github.com/vinay030901/Algorithms',
-                tags: ['C++', 'DSA', 'Problem Solving'],
-                body: `<p>The backbone of my competitive programming and problem-solving journey.</p>
-                       <ul>
-                           <li>A massive collection of optimized algorithms, data structures (DSA), and design patterns written in C++.</li>
-                           <li>Reflects my practice across platforms like LeetCode and HackerRank.</li>
-                       </ul>`
-            },
-            'alien-invasion': {
-                title: 'Alien Invasion',
-                repo: 'https://github.com/vinay030901/Alien-Invasion',
-                tags: ['Python', 'Pygame', 'Game Dev'],
-                body: `<p>A classic 2D shooter game built from scratch.</p>
-                       <ul>
-                           <li>Utilizes the Pygame library to manage game loops, frame rates, and collision detection.</li>
-                           <li>Handles complex sprite management, user event listeners, and dynamic screen rendering.</li>
-                       </ul>`
-            }
-        };
-
-        const modalOverlay = document.getElementById('projectModal');
-        const modalTitle = document.getElementById('modal-title');
-        const modalTags = document.getElementById('modal-tags');
-        const modalBody = document.getElementById('modal-body');
-        const modalRepoLink = document.getElementById('modal-repo-link');
-
-        function openModal(projectId) {
-            const data = projectData[projectId];
-            
-            modalTitle.textContent = data.title;
-            modalBody.innerHTML = data.body;
-            modalRepoLink.href = data.repo;
-            
-            modalTags.innerHTML = data.tags.map(tag => {
-                const isAI = tag.includes('AI') || tag.includes('Claude') || tag.includes('Bedrock') || tag.includes('RAG');
-                const isGithub = ['Java', 'OOP', 'Python', 'Jupyter', 'C++', 'DSA', 'Pygame'].includes(tag);
-                let tagClass = '';
-                if (isAI) tagClass = 'ai';
-                else if (isGithub) tagClass = 'github';
-                return `<span class="tag ${tagClass}">${tag}</span>`;
-            }).join('');
-
-            modalOverlay.classList.add('active');
-            document.body.style.overflow = 'hidden'; 
-        }
-
-        function closeModal(e) {
-            if (e) e.preventDefault();
-            modalOverlay.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-
-        document.querySelectorAll('.nav-links a').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href').substring(1);
-                const targetElement = document.getElementById(targetId);
-                window.scrollTo({
-                    top: targetElement.offsetTop - 80,
-                    behavior: 'smooth'
-                });
-            });
-        });
-    </script>
+  <script src="script.js"></script>
 </body>
 </html>
