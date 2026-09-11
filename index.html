@@ -416,4 +416,49 @@
             }
         };
 
-        c
+        const modalOverlay = document.getElementById('projectModal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalTags = document.getElementById('modal-tags');
+        const modalBody = document.getElementById('modal-body');
+        const modalRepoLink = document.getElementById('modal-repo-link');
+
+        function openModal(projectId) {
+            const data = projectData[projectId];
+            
+            modalTitle.textContent = data.title;
+            modalBody.innerHTML = data.body;
+            modalRepoLink.href = data.repo;
+            
+            modalTags.innerHTML = data.tags.map(tag => {
+                const isAI = tag.includes('AI') || tag.includes('Claude') || tag.includes('Bedrock') || tag.includes('RAG');
+                const isGithub = ['Java', 'OOP', 'Python', 'Jupyter', 'C++', 'DSA', 'Pygame'].includes(tag);
+                let tagClass = '';
+                if (isAI) tagClass = 'ai';
+                else if (isGithub) tagClass = 'github';
+                return `<span class="tag ${tagClass}">${tag}</span>`;
+            }).join('');
+
+            modalOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden'; 
+        }
+
+        function closeModal(e) {
+            if (e) e.preventDefault();
+            modalOverlay.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        document.querySelectorAll('.nav-links a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                window.scrollTo({
+                    top: targetElement.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
